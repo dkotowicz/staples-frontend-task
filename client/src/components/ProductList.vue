@@ -11,14 +11,12 @@
                 <button>Detail</button>
             </li>
         </ul>
-        <button>Previous</button>
-        <button>Next</button>
+        <button @click="prevPage">Previous</button>
+        <button @click="nextPage">Next</button>
     </div>
 </template>
 
-
 <script>
-
 export default {
   name: 'productList',
   computed: {
@@ -27,6 +25,12 @@ export default {
       },
   },
   methods: {
+      nextPage() {
+          this.$store.dispatch('nextPage')
+      },
+      prevPage() {
+          this.$store.dispatch('prevPage')
+      }
   },
   created() {
       this.$store.dispatch('fetchProductList')
