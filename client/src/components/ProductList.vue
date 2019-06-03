@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Product list</h1>
-        <input type="Text" placeholder="search in the store"/>
+        <input type="Text" placeholder="search in the store" @input="filterProducts" v-model="searchValue"/>
         <ul>
             <li v-for="product in products" :key="product.id">
                 <img :src="product.images.primary.large"/>
@@ -23,6 +23,15 @@ export default {
       products() {
           return this.$store.getters.productList
       },
+      searchValue: {
+          get() {
+              return this.$store.getters.searchValue
+          },
+          set(value) {
+              this.$store.commit('setSearchValue', value) 
+
+          }
+      }
   },
   methods: {
       nextPage() {
@@ -30,6 +39,9 @@ export default {
       },
       prevPage() {
           this.$store.dispatch('prevPage')
+      },
+      filterProducts() {
+          this.$store.dispatch('filterProductList')
       }
   },
   created() {
