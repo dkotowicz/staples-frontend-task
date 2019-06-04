@@ -1,5 +1,5 @@
 <template>
-  <div id='app'>
+  <div>
     <ProductList/>
     <ProductDetails v-if="showProductDetails"/>
     <ShoppingCart/>
@@ -29,5 +29,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style src="./assets/css/main.css">
