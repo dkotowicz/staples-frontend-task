@@ -9,8 +9,10 @@ const API = 'http://localhost:3005/products';
 export default new Vuex.Store({
     state: {
         products: [],
+        productDetails: null,
         headerLinks: [],
-        searchValue: ''
+        searchValue: '',
+        showProductDetails: false
     },
     getters: {
         productList(state, getters) {
@@ -18,6 +20,12 @@ export default new Vuex.Store({
         },
         searchValue(state,getters) {
             return state.searchValue
+        },
+        productDetails(state,getters) {
+            return state.productDetails
+        },
+        showProductDetails(state, getters) {
+            return state.showProductDetails
         }
     },
     actions: {
@@ -42,6 +50,13 @@ export default new Vuex.Store({
         async filterProductList(context) {
             var url = context.state.headerLinks.first.url.replace(/&q.+/, '') + '&q=' + context.state.searchValue
             context.dispatch('refreshProductList', url)
+        },
+        async findProductById(context, productId) {
+            await axios.get(API + '/' + productId)
+            .then(response =>{
+                context.commit('setProductDetails', response.data)
+                context.commit('changeStatusComponentDetails')})
+
         }
     },
     mutations: {
@@ -53,6 +68,12 @@ export default new Vuex.Store({
         },
         setSearchValue(state, value) {
             state.searchValue = value
+        },
+        setProductDetails(state,product) {
+            state.productDetails = product
+        },
+        changeStatusComponentDetails(state) {
+            state.showProductDetails = !state.showProductDetails
         }
     }
 })

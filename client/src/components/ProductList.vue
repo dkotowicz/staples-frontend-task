@@ -8,7 +8,7 @@
                 <p>{{product.general.name}}</p>
                 <p>{{product.general.presentable_id}}</P>
                 <button>Add to cart</button>
-                <button>Detail</button>
+                <button @click="productDetails(product.id)">Detail</button>
             </li>
         </ul>
         <button @click="prevPage">Previous</button>
@@ -42,6 +42,9 @@ export default {
       },
       filterProducts() {
           this.$store.dispatch('filterProductList')
+      },
+      productDetails(productId) {
+          this.$store.dispatch('findProductById', productId)
       }
   },
   created() {
