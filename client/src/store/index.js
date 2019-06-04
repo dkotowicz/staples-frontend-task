@@ -33,6 +33,12 @@ export default new Vuex.Store({
             var url = API + '?_page=1'
             context.dispatch('refreshProductList', url)
         },
+        createCart(context) {
+            localStorage.removeItem('cart')
+            if(!localStorage.getItem('cart')) {
+                localStorage.setItem('cart', JSON.stringify([]))
+            }     
+        },
         async nextPage(context) {
             var url = context.state.headerLinks.next.url
             context.dispatch('refreshProductList', url)
@@ -57,6 +63,23 @@ export default new Vuex.Store({
                 context.commit('setProductDetails', response.data)
                 context.commit('changeStatusComponentDetails')})
 
+        },
+        addProductToCart(context, {quantity, productId}) {
+            if(quantity!=''){
+                quantity = parseInt(quantity)
+                var found = false
+                var cart = JSON.parse(localStorage.getItem('cart'))
+                cart.map(product => {
+                if(product.productId == productId) {
+                    product.quantity += quantity
+                    found = true
+                    }  
+                })
+                if(found == false) {
+                    cart.push({productId, quantity})
+                }
+                localStorage.setItem('cart', JSON.stringify(cart))
+            }
         }
     },
     mutations: {

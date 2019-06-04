@@ -3,11 +3,12 @@
         <h1>Product list</h1>
         <input type="Text" placeholder="search in the store" @input="filterProducts" v-model="searchValue"/>
         <ul>
-            <li v-for="product in products" :key="product.id">
+            <li v-for="(product, index) in products" :key="product.id">
                 <img :src="product.images.primary.large"/>
                 <p>{{product.general.name}}</p>
                 <p>{{product.general.presentable_id}}</P>
-                <button>Add to cart</button>
+                <input type="number" v-model="product[index]"/>
+                <button @click="addToCart(product[index], product.id)">Add to cart</button>
                 <button @click="productDetails(product.id)">Detail</button>
             </li>
         </ul>
@@ -45,7 +46,10 @@ export default {
       },
       productDetails(productId) {
           this.$store.dispatch('findProductById', productId)
-      }
+      },
+      addToCart(quantity, productId) {
+          this.$store.dispatch('addProductToCart', {quantity, productId})
+        },
   },
   created() {
       this.$store.dispatch('fetchProductList')
