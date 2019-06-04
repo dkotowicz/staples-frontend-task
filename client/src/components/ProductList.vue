@@ -6,7 +6,7 @@
             <li v-for="(product, index) in products" :key="product.id">
                 <img :src="product.images.primary.large"/>
                 <p>{{product.general.name}}</p>
-                <p>{{product.general.presentable_id}}</P>
+                <p>{{product.general.presentable_id}}</p>
                 <input type="number" v-model="product[index]"/>
                 <button @click="addToCart(product[index], product.id)">Add to cart</button>
                 <button @click="productDetails(product.id)">Detail</button>
@@ -30,7 +30,6 @@ export default {
           },
           set(value) {
               this.$store.commit('setSearchValue', value) 
-
           }
       }
   },

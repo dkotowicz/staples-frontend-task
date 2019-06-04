@@ -12,7 +12,9 @@ export default new Vuex.Store({
         productDetails: null,
         headerLinks: [],
         searchValue: '',
-        showProductDetails: false
+        shoppingCartUrl: '',
+        showProductDetails: false,
+        shoppingCart: []
     },
     getters: {
         productList(state, getters) {
@@ -26,6 +28,9 @@ export default new Vuex.Store({
         },
         showProductDetails(state, getters) {
             return state.showProductDetails
+        },
+        shoppingCart(state,getters) {
+            return state.shoppingCart
         }
     },
     actions: {
@@ -34,7 +39,6 @@ export default new Vuex.Store({
             context.dispatch('refreshProductList', url)
         },
         createCart(context) {
-            localStorage.removeItem('cart')
             if(!localStorage.getItem('cart')) {
                 localStorage.setItem('cart', JSON.stringify([]))
             }     
@@ -80,7 +84,31 @@ export default new Vuex.Store({
                 }
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
-        }
+        },
+        async fetchCart(context) { 
+            context.dispatch('getCartUrl') 
+            const cart = JSON.parse(localStorage.getItem('cart'))
+            if(context.state.shoppingCartUrl != null) {
+                await axios.get(context.state.shoppingCartUrl)
+                .then(response => {
+                     var products = response.data.map(product => ({
+                        ...cart.find((cartItem) => (cartItem.productId === product.id)),
+                        ...product
+                    }))
+                    context.commit('setShoppingCart', products)
+                }) 
+            }
+        },
+        getCartUrl(context){
+            const cart = JSON.parse(localStorage.getItem('cart'))
+            if(cart.length > 0) {
+                var concatIds = '' 
+                cart.map(product => {
+                    concatIds = concatIds + '&id=' + product.productId
+                })
+                context.commit('setShoppingUrl', API + '?_limit=' + cart.length + concatIds)
+            }
+        },
     },
     mutations: {
         setProductList(state, products) {
@@ -95,8 +123,14 @@ export default new Vuex.Store({
         setProductDetails(state,product) {
             state.productDetails = product
         },
+        setShoppingCart(state, shoppingCart) {
+            state.shoppingCart = shoppingCart
+        },
         changeStatusComponentDetails(state) {
             state.showProductDetails = !state.showProductDetails
+        },
+        setShoppingUrl(state, url) {
+            state.shoppingCartUrl = url
         }
     }
 })
