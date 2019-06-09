@@ -12,8 +12,12 @@
                 <button @click="productDetails(product.id)">Detail</button>
             </li>
         </ul>
-        <button @click="prevPage">Previous</button>
-        <button @click="nextPage">Next</button>
+        <div v-if="headerLinks[0].productsCount > 13" >
+          <button v-if="headerLinks[0].first != undefined" @click="firstPage"><<</button>
+          <button v-if="headerLinks[0].prev != undefined" @click="prevPage"><</button>
+          <button v-if="headerLinks[0].next != undefined" @click="nextPage">></button>
+          <button v-if="headerLinks[0].last != undefined" @click="lastPage">>></button>
+        </div>  
     </div>
 </template>
 
@@ -27,6 +31,9 @@ export default {
     productsCountInCart() {
       return this.$store.getters.productsCountInCart;
     },
+    headerLinks() {
+      return this.$store.getters.headerLinks
+    },
     searchValue: {
       get() {
         return this.$store.getters.searchValue
@@ -38,20 +45,26 @@ export default {
   },
   methods: {
       nextPage() {
-          this.$store.dispatch('nextPage')
+        this.$store.dispatch('nextPage')
       },
       prevPage() {
-          this.$store.dispatch('prevPage')
+        this.$store.dispatch('prevPage')
+      },
+      firstPage() {
+        this.$store.dispatch('firstPage')
+      },
+      lastPage() {  
+        this.$store.dispatch('lastPage')
       },
       filterProducts() {
-          this.$store.dispatch('filterProductList')
+        this.$store.dispatch('filterProductList')
       },
       productDetails(productId) {
-          this.$store.dispatch('findProductById', productId)
+        this.$store.dispatch('findProductById', productId)
       },
       addToCart(quantity, productId) {
-          this.$store.dispatch('addProductToCart', {quantity, productId})
-        },
+        this.$store.dispatch('addProductToCart', {quantity, productId})
+      },
   },
   created() {
       this.$store.dispatch('fetchProductList')

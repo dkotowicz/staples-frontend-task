@@ -10,7 +10,13 @@ export default new Vuex.Store({
     state: {
         products: [],
         productDetails: null,
-        headerLinks: [],
+        headerLinks: [{
+            first: undefined,
+            next: undefined,
+            prev: undefined,
+            last: undefined,
+            productsCount: 0
+        }],
         searchValue: '',
         shoppingCartUrl: '',
         showProductDetails: false,
@@ -44,10 +50,13 @@ export default new Vuex.Store({
         productsCountInCart(state, getters) {
             return state.productsCountInCart
         },
+        headerLinks(state, getters) {
+            return state.headerLinks
+        }
     },
     actions: {
         async fetchProductList(context) {
-            var url = API + '?_page=1'
+            var url = API + '?_limit=12&_page=1'
             context.dispatch('refreshProductList', url)
         },
         createCart(context) {
@@ -60,19 +69,35 @@ export default new Vuex.Store({
             var url = context.state.headerLinks.next.url
             context.dispatch('refreshProductList', url)
         },
-        async prevPage(context) {
-            var url = context.state.headerLinks.prev.url
+        firstPage(context) {
+            var url = context.state.headerLinks[0].first.url
+            context.dispatch('refreshProductList', url)
+        },
+        lastPage(context) {
+            var url = context.state.headerLinks[0].last.url
+            context.dispatch('refreshProductList', url)
+        },
+        prevPage(context) {
+            var url = context.state.headerLinks[0].prev.url
             context.dispatch('refreshProductList', url)
         },
         async refreshProductList(context,url) {
             await axios.get(url)
             .then(response =>{
-                context.commit('setHeaderLinks', response.headers.link)
+                var pages = context.state.headerLinks
+                var parsedLinks = parse(response.headers.link)
+                if(parsedLinks != undefined) {
+                    pages = [{first: parsedLinks.first, next: parsedLinks.next, prev: parsedLinks.prev, last: parsedLinks.last, productsCount: response.headers['x-total-count']}]
+                }
+                else {
+                    pages[0].productsCount = response.headers['x-total-count']
+                } 
+                context.commit('setHeaderLinks', pages)
                 context.commit('setProductList', response.data)})
         },
         async filterProductList(context) {
-            var url = context.state.headerLinks.first.url.replace(/&q.+/, '') + '&q=' + context.state.searchValue
-            context.dispatch('refreshProductList', url)
+            var url = context.state.headerLinks[0].first.url.replace(/&q.+/, '') + '&q=' + context.state.searchValue
+            context.dispatch('refreshProductList', url) 
         },
         async findProductById(context, productId) {
             await axios.get(API + '/' + productId)
@@ -149,7 +174,7 @@ export default new Vuex.Store({
             state.products = products
         },
         setHeaderLinks(state, links) {
-            links != '' ? state.headerLinks = parse(links) : null
+            state.headerLinks = pages
         },
         setSearchValue(state, value) {
             state.searchValue = value
