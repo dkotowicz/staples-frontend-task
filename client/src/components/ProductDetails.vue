@@ -9,7 +9,7 @@
         <p>{{product.brand.name}}</p>
         <p v-html="product.general.description"></p>
         <button @click="decrementProductCount">-</button>
-        <input v-model="product[index]" placeholder="1" @input="checkValidationNumber">
+        <input v-model="product" placeholder="1" @input="checkValidationNumber">
         <button @click="productCount += 1">+</button>
         <button @click="addToCart(product, product.id)">Add to cart</button>
     </div>
