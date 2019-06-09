@@ -107,23 +107,23 @@ export default new Vuex.Store({
 
         },
         addProductToCart(context, {quantity, productId}) {
-            if(quantity!=''){
-                quantity = parseInt(quantity)
-                var found = false
-                var cart = JSON.parse(localStorage.getItem('cart'))
-                cart.map(product => {
+            quantity = parseInt(quantity)
+            var found = false
+            var cart = JSON.parse(localStorage.getItem('cart'))
+            cart.map(product => {
                 if(product.productId == productId) {
                     product.quantity += quantity
                     found = true
-                    }  
-                })
-                if(found == false) {
-                    cart.push({productId, quantity})
-                }
-                localStorage.setItem('cart', JSON.stringify(cart))
-                context.commit('setAlertText', 'Product was added to your cart')
-                context.commit('changeStatusAlert')
+                }  
+            })
+            if(found == false) {
+                cart.push({productId, quantity})
             }
+            localStorage.setItem('cart', JSON.stringify(cart))
+            context.commit('setAlertText', 'Product was added to your cart')
+            context.commit('changeStatusAlert')
+            context.dispatch('fetchCart')
+            context.dispatch('calculateProductsInCart')
         },
         async fetchCart(context) { 
             context.dispatch('getCartUrl') 
@@ -168,6 +168,10 @@ export default new Vuex.Store({
             context.commit('setAlertText', 'Product has been removed from cart ')
             context.commit('changeStatusAlert')
         },
+        checkValidationNumber(context, { value, index} ) {
+            value = value.replace(/\D/g, '')
+            context.commit('setQuantityInput', { value, index })
+        }
     },
     mutations: {
         setProductList(state, products) {
@@ -184,6 +188,15 @@ export default new Vuex.Store({
         },
         setShoppingCart(state, shoppingCart) {
             state.shoppingCart = shoppingCart
+        },
+        incrementProductCount(state, { index, productCount }) {
+            Vue.set(state.products[index], index, parseInt(productCount) + 1)  
+        },
+        decrementProductCount(state, { index, productCount }) {
+            Vue.set(state.products[index], index, parseInt(productCount) - 1) 
+        },
+        setQuantityInput(state, { value, index }) {
+            Vue.set(state.products[index], index, value) 
         },
         changeStatusComponentDetails(state) {
             state.showProductDetails = !state.showProductDetails

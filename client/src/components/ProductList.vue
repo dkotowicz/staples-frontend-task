@@ -8,7 +8,9 @@
                 <p>{{product.general.name}}</p>
                 <p>{{product.general.presentable_id}}</p>
                 <input type="number" v-model="product[index]"/>
-                <button @click="addToCart(product[index], product.id)">Add to cart</button>
+                <button @click="decrementProductCount(index, product[index])">-</button>
+                <input v-model="product[index]" placeholder="1" @input="checkValidationNumber(product[index], index)">
+                <button @click="incrementProductCount(index, product[index])">+</button>
                 <button @click="productDetails(product.id)">Detail</button>
             </li>
         </ul>
@@ -62,9 +64,32 @@ export default {
       productDetails(productId) {
         this.$store.dispatch('findProductById', productId)
       },
-      addToCart(quantity, productId) {
-        this.$store.dispatch('addProductToCart', {quantity, productId})
+      addToCart(quantity, productId, index) {
+        if(quantity == undefined) {
+          quantity = 1
+        }
+        else if(quantity == 0) {
+          return 
+        }
+        this.$store.dispatch('addProductToCart', { quantity, productId })
+        var defaultValue = 1
+        this.$store.commit('setQuantityInput', { defaultValue, index })
       },
+      incrementProductCount(index, productCount) {
+        if(productCount == undefined || productCount == '') {
+          productCount = 1
+        }
+        this.$store.commit('incrementProductCount', { index, productCount }) 
+      },
+      decrementProductCount(index, productCount) {
+        if(productCount == undefined || productCount == 0) {
+          productCount = 1
+        }
+        this.$store.commit('decrementProductCount', { index, productCount })
+      },
+      checkValidationNumber(value, index) {
+        this.$store.dispatch('checkValidationNumber', { value, index })
+      }
   },
   created() {
       this.$store.dispatch('fetchProductList')
