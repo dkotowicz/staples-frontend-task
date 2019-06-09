@@ -14,7 +14,9 @@ export default new Vuex.Store({
         searchValue: '',
         shoppingCartUrl: '',
         showProductDetails: false,
-        shoppingCart: []
+        shoppingCart: [],
+        showAlert: false,
+        alertText: '',
     },
     getters: {
         productList(state, getters) {
@@ -31,7 +33,13 @@ export default new Vuex.Store({
         },
         shoppingCart(state,getters) {
             return state.shoppingCart
-        }
+        },
+        showAlert(state, getters) {
+            return state.showAlert
+        },
+        alertText(state, getters) {
+            return state.alertText
+        },
     },
     actions: {
         async fetchProductList(context) {
@@ -83,6 +91,8 @@ export default new Vuex.Store({
                     cart.push({productId, quantity})
                 }
                 localStorage.setItem('cart', JSON.stringify(cart))
+                context.commit('setAlertText', 'Product was added to your cart')
+                context.commit('changeStatusAlert')
             }
         },
         async fetchCart(context) { 
@@ -131,6 +141,15 @@ export default new Vuex.Store({
         },
         setShoppingUrl(state, url) {
             state.shoppingCartUrl = url
-        }
+        },
+        setAlertText(state, text) {
+            state.alertText = text
+        },
+        changeStatusAlert(state) {
+            state.showAlert = true
+            setTimeout(()=>{
+                state.showAlert = false
+             },1000); 
+        },
     }
 })
