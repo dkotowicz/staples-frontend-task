@@ -41,6 +41,9 @@ export default new Vuex.Store({
         alertText(state, getters) {
             return state.alertText
         },
+        productsCountInCart(state, getters) {
+            return state.productsCountInCart
+        },
     },
     actions: {
         async fetchProductList(context) {
