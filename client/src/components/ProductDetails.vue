@@ -8,8 +8,10 @@
         <p>{{product.id}}</p>
         <p>{{product.brand.name}}</p>
         <p v-html="product.general.description"></p>
-        <input type="number" v-model="product[0]"/>
-        <button @click="addToCart(product[0], product.id)">Add to cart</button>
+        <button @click="decrementProductCount">-</button>
+        <input v-model="product[index]" placeholder="1" @input="checkValidationNumber">
+        <button @click="productCount += 1">+</button>
+        <button @click="addToCart(product, product.id)">Add to cart</button>
     </div>
 </template>
 
@@ -21,13 +23,32 @@ export default {
             return this.$store.getters.productDetails
         }
     },
+    data() {
+        return {
+            productCount: 1
+        }
+    },
     methods: {
         closeProductDetails() {
             this.$store.commit('changeStatusComponentDetails')
         },
         addToCart(quantity, productId) {
-          this.$store.dispatch('addProductToCart', {quantity, productId})
+            if(quantity == undefined) {
+                quantity = 1
+            }
+            else if(quantity == 0) {
+                return 
+            }
+            this.$store.dispatch('addProductToCart', {quantity, productId})
         },
+        checkValidationNumber() {
+            this.productCount = this.productCount.replace(/\D/g, '')
+        },
+        decrementProductCount() {
+            if(this.productCount > 0) {
+                this.productCount -= 1
+            }
+        }
     },
     created() {
     },
