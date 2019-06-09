@@ -21,17 +21,20 @@
 export default {
   name: 'productList',
   computed: {
-      products() {
-          return this.$store.getters.productList
+    products() {
+      return this.$store.getters.productList
+    },
+    productsCountInCart() {
+      return this.$store.getters.productsCountInCart;
+    },
+    searchValue: {
+      get() {
+        return this.$store.getters.searchValue
       },
-      searchValue: {
-          get() {
-              return this.$store.getters.searchValue
-          },
-          set(value) {
-              this.$store.commit('setSearchValue', value) 
-          }
+      set(value) {
+        this.$store.commit('setSearchValue', value) 
       }
+    }
   },
   methods: {
       nextPage() {

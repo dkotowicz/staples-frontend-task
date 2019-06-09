@@ -17,6 +17,7 @@ export default new Vuex.Store({
         shoppingCart: [],
         showAlert: false,
         alertText: '',
+        productsCountInCart: 0,
     },
     getters: {
         productList(state, getters) {
@@ -49,7 +50,8 @@ export default new Vuex.Store({
         createCart(context) {
             if(!localStorage.getItem('cart')) {
                 localStorage.setItem('cart', JSON.stringify([]))
-            }     
+            }
+            context.dispatch('calculateProductsInCart')     
         },
         async nextPage(context) {
             var url = context.state.headerLinks.next.url
@@ -119,6 +121,14 @@ export default new Vuex.Store({
                 context.commit('setShoppingUrl', API + '?_limit=' + cart.length + concatIds)
             }
         },
+        calculateProductsInCart(context) {
+            var productsCount = 0
+            var cart = JSON.parse(localStorage.getItem('cart'))
+            cart.map(product => {
+                productsCount += product.quantity
+            })
+            context.commit('setProductsCountInCart', productsCount)
+        },
     },
     mutations: {
         setProductList(state, products) {
@@ -150,6 +160,9 @@ export default new Vuex.Store({
             setTimeout(()=>{
                 state.showAlert = false
              },1000); 
+        },
+        setProductsCountInCart(state, productsCount) {
+            state.productsCountInCart = productsCount
         },
     }
 })

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="productsCountInCart > 0">
         <h1>Shopping Cart</h1>
         <ul>
             <li v-for="product in products" :key="product.id">
@@ -8,6 +8,7 @@
                 <p>{{product.general.presentable_id}}</p>
                 <p>{{product.quantity}}</p>
             </li>
+             
         </ul>
     </div>
 </template>
@@ -18,7 +19,10 @@ export default {
     computed: {
         products() {
             return this.$store.getters.shoppingCart
-        }
+        },
+        productsCountInCart() {
+            return this.$store.getters.productsCountInCart;
+        },
     },
     created() {
         this.$store.dispatch('fetchCart')
@@ -27,6 +31,4 @@ export default {
 </script>
 
 <style>
-
 </style>
-
