@@ -132,6 +132,17 @@ export default new Vuex.Store({
             })
             context.commit('setProductsCountInCart', productsCount)
         },
+        removeProductFromCart(context, productId) {
+            const cart = JSON.parse(localStorage.getItem('cart'))
+            var cartNew = cart.filter(product => {
+                return product.productId != productId
+            })
+            localStorage.setItem('cart', JSON.stringify(cartNew))
+            context.dispatch('calculateProductsInCart')
+            context.dispatch('fetchCart')
+            context.commit('setAlertText', 'Product has been removed from cart ')
+            context.commit('changeStatusAlert')
+        },
     },
     mutations: {
         setProductList(state, products) {

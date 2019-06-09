@@ -7,6 +7,7 @@
                 <p>{{product.general.name}}</p>
                 <p>{{product.general.presentable_id}}</p>
                 <p>{{product.quantity}}</p>
+                <button @click="removeProductFromCart(product.id)">remove</button>
             </li>
              
         </ul>
@@ -23,6 +24,11 @@ export default {
         productsCountInCart() {
             return this.$store.getters.productsCountInCart;
         },
+    },
+    methods: {
+        removeProductFromCart(productId) {
+            this.$store.dispatch('removeProductFromCart', productId)
+        }
     },
     created() {
         this.$store.dispatch('fetchCart')
