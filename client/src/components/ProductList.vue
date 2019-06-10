@@ -4,7 +4,6 @@
   <div class="flex items-center bg-gray-700 shadow-lg block">
     <div class="flex-1 text-white text-center text-6xl sm:text-7xl md:text-7xl lg:text-6xl xl:text-6xl">eCommerce</div>
   </div>
-
   <!-- navigation -->
   <div class="mx-8 sm:mx-0 md:mx-0 lg:mx-24 xl:mx-32">
     <div class="flex flex-wrap flex-wrap mt-4 border-gray-400 sticky top-0 bg-gray-200 p-1 z-10 ">
@@ -16,9 +15,12 @@
       <!-- cart button -->
       <div class="flex w-1/2 sm:w-full md:w-full lg:w-1/2 xl:w-1/2 justify-end sm:justify-center md:justify-center lg:justify-end xl:justify-end m-0 sm:m-4 md:m-4 lg:m-0 xl:m-0">
         <div class="relative inline-block w-1/2 sm:w-full md:w-full lg:w-1/2 xl:w-1/2">
-          <button class="bg-gray-700 text-white font-bold p-2 rounded hover:bg-gray-600 w-full text-xl sm:text-5xl md:text-5xl lg:text-xl xl:text-xl"><i class="fa fa-shopping-cart pr-4"></i>Cart
+          <button class="bg-gray-700 text-white font-bold p-2 rounded hover:bg-gray-600 w-full text-xl sm:text-5xl md:text-5xl lg:text-xl xl:text-xl" @click="changeStatusShoppingCart"><i class="fa fa-shopping-cart pr-4"></i>Cart
             <span class="font-light pl-4 visible sm:invisible md:visible lg:visible xl:visible">({{productsCountInCart}} products)</span>
           </button>
+          <div v-if="showShoppingCart" class="absolute block bg-gray-400 text-gray-700 w-full">
+            <ShoppingCart/>
+          </div>
         </div>
       </div> 
     </div>
@@ -33,7 +35,7 @@
         <div class="inline-flex my-8 text-lg sm:text-5xl md:text-5xl lg:text-base xl:text-lg">
           <button class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded mr-2 sm:mr-4 md:mr-8 lg:mr-2 xl:mr-2 w-auto" @click="productDetails(product.id)"><i class="fa fa-eye pr-3"></i>Info</button>
           <button class="bg-gray-300 hover:bg-gray-500 text-gray-800 font-bold py-2 px-2 sm:px-8 md:px-8 lg:px-2 xl:px-2 border rounded-l" @click="decrementProductCount(index, product[index])">-</button>
-          <input class="bg-gray-100 hover:bg-gray-500 text-gray-800 py-2 px-4 sm:px-12 md:px-12 lg:px-4 xl:px-4 border-t border-b text-center w-12" v-model="product[index]" placeholder="1" @input="checkValidationNumber(product[index], index)">
+          <input class="bg-gray-100 hover:bg-gray-500 text-gray-800 py-2 border-t border-b text-center w-12 sm:w-32 md:w-32 lg:w-15 xl:w-12" v-model="product[index]" placeholder="1" @input="checkValidationNumber(product[index], index)">
           <button class="bg-gray-300 hover:bg-gray-500 text-gray-800 font-bold py-2 px-2 sm:px-8 md:px-8 lg:px-2 xl:px-2 border" @click="incrementProductCount(index, product[index])">+</button>
           <div>
               <button class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-r border" @click="addToCart(product[index], product.id, index)">Add to <i class="fa fa-shopping-cart"></i></button>
@@ -58,8 +60,12 @@
 
 
 <script>
+import ShoppingCart from './ShoppingCart';
 export default {
   name: 'productList',
+  components: {
+    ShoppingCart
+  },
   computed: {
     products() {
       return this.$store.getters.productList
@@ -77,7 +83,10 @@ export default {
       set(value) {
         this.$store.commit('setSearchValue', value) 
       }
-    }
+    },
+    showShoppingCart() {
+      return this.$store.getters.showShoppingCart
+    },
   },
   methods: {
       nextPage() {
@@ -97,6 +106,9 @@ export default {
       },
       productDetails(productId) {
         this.$store.dispatch('findProductById', productId)
+      },
+      changeStatusShoppingCart() {
+        this.$store.commit('changeStatusShoppingCart');
       },
       addToCart(quantity, productId, index) {
         if(quantity == undefined) {
@@ -127,6 +139,7 @@ export default {
   },
   created() {
       this.$store.dispatch('fetchProductList')
+      this.$store.dispatch('createCart')
   },
 }
 </script>

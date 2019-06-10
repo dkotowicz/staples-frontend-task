@@ -20,6 +20,7 @@ export default new Vuex.Store({
         searchValue: '',
         shoppingCartUrl: '',
         showProductDetails: false,
+        showShoppingCart: false,
         shoppingCart: [],
         showAlert: false,
         alertText: '',
@@ -37,6 +38,9 @@ export default new Vuex.Store({
         },
         showProductDetails(state, getters) {
             return state.showProductDetails
+        },
+        showShoppingCart(state, getters) {
+            return state.showShoppingCart
         },
         shoppingCart(state,getters) {
             return state.shoppingCart
@@ -66,7 +70,7 @@ export default new Vuex.Store({
             context.dispatch('calculateProductsInCart')     
         },
         async nextPage(context) {
-            var url = context.state.headerLinks.next.url
+            var url = context.state.headerLinks[0].next.url
             context.dispatch('refreshProductList', url)
         },
         firstPage(context) {
@@ -104,7 +108,6 @@ export default new Vuex.Store({
             .then(response =>{
                 context.commit('setProductDetails', response.data)
                 context.commit('changeStatusComponentDetails')})
-
         },
         addProductToCart(context, {quantity, productId}) {
             quantity = parseInt(quantity)
@@ -128,15 +131,17 @@ export default new Vuex.Store({
         async fetchCart(context) { 
             context.dispatch('getCartUrl') 
             const cart = JSON.parse(localStorage.getItem('cart'))
-            if(context.state.shoppingCartUrl != null) {
-                await axios.get(context.state.shoppingCartUrl)
-                .then(response => {
-                     var products = response.data.map(product => ({
-                        ...cart.find((cartItem) => (cartItem.productId === product.id)),
-                        ...product
-                    }))
-                    context.commit('setShoppingCart', products)
-                }) 
+            if(cart.length > 0) {
+                if(context.state.shoppingCartUrl != null) {
+                    await axios.get(context.state.shoppingCartUrl)
+                    .then(response => {
+                         var products = response.data.map(product => ({
+                            ...cart.find((cartItem) => (cartItem.productId === product.id)),
+                            ...product
+                        }))
+                        context.commit('setShoppingCart', products)
+                    }) 
+                }
             }
         },
         getCartUrl(context){
@@ -178,7 +183,7 @@ export default new Vuex.Store({
             state.products = products
         },
         setHeaderLinks(state, links) {
-            state.headerLinks = pages
+            state.headerLinks = links
         },
         setSearchValue(state, value) {
             state.searchValue = value
@@ -200,6 +205,9 @@ export default new Vuex.Store({
         },
         changeStatusComponentDetails(state) {
             state.showProductDetails = !state.showProductDetails
+        },
+        changeStatusShoppingCart(state) {
+            state.showShoppingCart = !state.showShoppingCart
         },
         setShoppingUrl(state, url) {
             state.shoppingCartUrl = url
