@@ -14,7 +14,8 @@ export default {
     name: 'app',
     components: {
         ProductList,
-        ProductDetails
+        ProductDetails,
+        Alert
     },
     computed: {
         showProductDetails() {
