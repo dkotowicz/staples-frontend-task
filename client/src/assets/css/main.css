@@ -2,4 +2,13 @@
 
 @tailwind components;
 
+.bg-smoke-dark{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bg-alert {
+  background-color: rgb(52, 81, 119);
+}
+
 @tailwind utilities;
+
+
