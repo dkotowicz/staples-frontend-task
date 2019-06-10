@@ -3,21 +3,18 @@
     <Alert v-if="showAlert"/>
     <ProductList/>
     <ProductDetails v-if="showProductDetails"/>
-    <ShoppingCart/>
   </div>
 </template>
 
 <script>
 import ProductList from './components/ProductList';
 import ProductDetails from './components/ProductDetails';
-import ShoppingCart from './components/ShoppingCart';
 import Alert from './components/Alert';
 export default {
     name: 'app',
     components: {
         ProductList,
-        ProductDetails,
-        ShoppingCart
+        ProductDetails
     },
     computed: {
         showProductDetails() {
@@ -27,7 +24,6 @@ export default {
             return this.$store.getters.showAlert
         },
         created() {
-            this.$store.dispatch('createCart')
         },
     }
 }
