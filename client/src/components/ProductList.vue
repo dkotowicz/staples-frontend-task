@@ -1,5 +1,5 @@
 <template>
-<div class="block min-h-full">
+<div class="block min-h-screen">
   <!-- logo -->
   <div class="header">
     <div class="flex-1">eCommerce</div>
@@ -25,7 +25,7 @@
       </div> 
     </div>
     <!-- container -->
-    <div class="flex flex-wrap justify-around mt-4">
+    <div v-if="headerLinks[0].productsCount > 0" class="flex flex-wrap justify-around mt-4">
       <!-- item -->
       <div class="product-container" v-for="(product, index) in products" :key="product.id">
         <p class="product-list-id">product id: {{product.general.presentable_id}}</p>
@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <div v-else class="mt-16 text-5xl h-screen text-gray-700 flex justify-center text-center">Product not found</div>
   </div>
   <!-- pagination -->
   <div class="flex justify-center">
@@ -57,7 +58,6 @@
   <footer class="footer"></footer>
 </div>
 </template>
-
 
 <script>
 import ShoppingCart from './ShoppingCart';
