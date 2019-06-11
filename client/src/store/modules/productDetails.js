@@ -5,6 +5,7 @@ export default {
     state:{
         productDetails: null,
         showProductDetails: false,
+        productQuantityInput: 1
     },
     getters:{
         productDetails(state,getters) {
@@ -13,6 +14,9 @@ export default {
         showProductDetails(state, getters) {
             return state.showProductDetails
         },
+        productQuantityInput(state, getters){
+            return state.productQuantityInput
+        }
     },
     actions:{
         async findProductById(context, productId) {
@@ -21,6 +25,19 @@ export default {
                 context.commit('setProductDetails', response.data)
                 context.commit('changeStatusComponentDetails')})
         },
+        checkValidationProductNumber(context, value) {
+            value = value.replace(/\D/g, '')
+            context.commit('setProductQuantityInput', value)
+        },
+        incrementProductQuantity(context) {
+            var value = parseInt(context.state.productQuantityInput)
+            context.commit('setProductQuantityInput', value + 1)
+        },
+        decrementProductQuantity(context) {
+            var value = parseInt(context.state.productQuantityInput)
+            context.commit('setProductQuantityInput', value - 1)
+        }
+
     },
     mutations:{
         setProductDetails(state,product) {
@@ -28,6 +45,9 @@ export default {
         },
         changeStatusComponentDetails(state) {
             state.showProductDetails = !state.showProductDetails
+        },
+        setProductQuantityInput(state, value) {
+            state.productQuantityInput = value
         },
     }
 }

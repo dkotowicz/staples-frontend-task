@@ -64,8 +64,7 @@ export default {
         async filterProductList(context) {
             var url = context.state.headerLinks[0].first.url.replace(/&q.+/, '') + '&q=' + context.state.searchValue
             context.dispatch('refreshProductList', url) 
-        },
-        
+        },      
         checkValidationNumber(context, { value, index} ) {
             value = value.replace(/\D/g, '')
             context.commit('setQuantityInput', { value, index })
@@ -81,9 +80,7 @@ export default {
         },
         setSearchValue(state, value) {
             state.searchValue = value
-        },
-        
-        
+        },      
         incrementProductCount(state, { index, productCount }) {
             Vue.set(state.products[index], index, parseInt(productCount) + 1)  
         },

@@ -16,11 +16,11 @@
                             <img :src="product.images.primary.large"/>
                              <p class="product-detail-id">product id: {{product.general.presentable_id}}</p>
                             <div class="inline-flex p-2 flex justify-center mx-auto w-full product-text">
-                                <button class="inc-dec-button rounded-l" @click="decrementProductCount">-</button>
-                                <input class="quantity-input" v-model="productCount" placeholder="1" @input="checkValidationNumber">
-                                <button class="inc-dec-button" @click="incrementProductCount">+</button>
+                                <button class="inc-dec-button rounded-l" @click="decrementProductQuantity">-</button>
+                                <input class="quantity-input" v-model="productQuantityInput" placeholder="1" @input="checkValidationNumber(productQuantityInput)">
+                                <button class="inc-dec-button" @click="incrementProductQuantity">+</button>
                                 <div>
-                                    <button class="product-button rounded-r border" @click="addToCart(productCount, product.id)">Add to <i class="fa fa-shopping-cart"></i></button>
+                                    <button class="product-button rounded-r border" @click="addToCart(productQuantityInput, product.id)">Add to <i class="fa fa-shopping-cart"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -48,13 +48,17 @@ export default {
     computed: {
         product() {
             return this.$store.getters.productDetails
-        }
+        },
+        productQuantityInput:{
+            get(){
+                return this.$store.getters.productQuantityInput
+            },
+            set(value) {
+                return this.$store.commit('setProductQuantityInput', value)
+            } 
+        } 
     },
-    data() {
-        return {
-            productCount: 1
-        }
-    },
+    
     methods: {
         closeProductDetails() {
             this.$store.commit('changeStatusComponentDetails')
@@ -67,17 +71,22 @@ export default {
                 return 
             }
             this.$store.dispatch('addProductToCart', {quantity, productId})
+            this.$store.commit('setProductQuantityInput', 1)
         },
-        checkValidationNumber() {
-            this.productCount = this.productCount.replace(/\D/g, '')
+        checkValidationNumber(value) {
+            this.$store.dispatch('checkValidationProductNumber', value)
         },
-        decrementProductCount() {
-            if(this.productCount > 0) {
-                this.productCount -= 1
+        decrementProductQuantity() {
+            if(this.productQuantityInput == undefined || this.productQuantityInput == '') {
+                this.$store.commit('setProductQuantityInput', 1)
             }
+            this.$store.dispatch('decrementProductQuantity')
         },
-        incrementProductCount() {
-            this.productCount += 1
+        incrementProductQuantity() {
+            if(this.productQuantityInput == undefined || this.productQuantityInput == '') {
+                this.$store.commit('setProductQuantityInput', 0)
+            }
+            this.$store.dispatch('incrementProductQuantity')
         }
     },
     created() {
