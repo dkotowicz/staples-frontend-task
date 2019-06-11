@@ -8,7 +8,349 @@
 .bg-alert {
   background-color: rgb(52, 81, 119);
 }
+.pagination-button{
+  @apply bg-gray-700 py-2 px-4 text-xl text-white font-bold
+}
+.pagination-button:hover{
+  @apply bg-gray-600
+}
+.product-button{
+  @apply bg-gray-700 text-white py-2 px-4
+}
+.product-button:hover{
+  @apply bg-gray-600
+}
+.inc-dec-button{
+  @apply bg-gray-300 font-bold py-2 px-2 border text-gray-700
+}
+.inc-dec-button:hover{
+  @apply bg-gray-500
+}
+.quantity-input{
+  @apply bg-gray-100 text-gray-800 py-2 border-t border-b text-center w-12
+}
+.quantity-input:hover{
+  @apply bg-gray-500
+}
+.product-text{
+  @apply text-lg
+}
+.product-container{
+  @apply text-gray-700 text-center bg-white px-4 py-2 m-2 rounded shadow-lg
+}
+.top-button{
+  @apply flex w-1/2 m-0 text-xl
+}
+.header{
+  @apply flex items-center bg-gray-700 shadow-lg block text-white text-center text-6xl
+}
+.product-detail-container{
+  @apply bg-white block rounded pb-3 mt-16 px-2
+}
+.close-button{
+  @apply text-gray-600 text-lg 
+}
+.close-button:hover{
+  @apply text-gray-800
+}
+.product-information-container{
+  @apply flex w-2/3
+}
+.product-description{
+  @apply text-gray-700 pl-3 mt-4 text-lg
+}
+.product-detail-title{
+  @apply text-center text-gray-700 font-bold text-4xl
+}
+.product-detail-id{
+  @apply text-left text-xl text-gray-700 text-center
+}
+.cart-container{
+  @apply block shadow-2xl overflow-auto h-72
+}
+.remove-button{
+  @apply text-gray-500 text-lg
+}
+.remove-button:hover{
+  @apply text-gray-800
+}
+.alert-container{
+  @apply fixed overflow-auto inset-0 z-20 items-center mx-auto bg-gray-600 rounded-b h-12 w-1/4
+}
+.alert-text{
+  @apply text-white text-center pt-2 text-xl
+}
+.search-input{
+  @apply p-2 bg-white rounded-l-lg text-gray-800 w-auto
+}
+.search-button{
+  @apply w-auto flex justify-end items-center text-gray-600 p-3 bg-white rounded-r-lg
+}
+.search-button:hover{
+  @apply text-gray-700
+}
+.cart-button{
+  @apply bg-gray-700 text-white font-bold p-2 rounded w-full
+}
+.cart-button:hover{
+  @apply bg-gray-600
+}
+.product-list-title{
+  @apply text-center font-bold text-lg m-4
+}
+.product-list-id{
+  @apply text-left text-gray-500 text-xs
+}
+@screen sm{
+  .pagination-buttont {
+    @apply text-4xl
+  }
+  .inc-dec-button{
+    @apply px-8
+  }
+  .quantity-input{
+    @apply w-32
+  }
+  .product-text{
+    @apply text-5xl
+  }
+  .product-container{
+    @apply w-5/6 
+  }
+  .top-button{
+    @apply w-full m-4 text-5xl
+  }
+  .header{
+    @apply text-7xl
+  }
+  .product-detail-container{
+    @apply w-full mt-8
+  }
+  .close-button{
+    @apply text-5xl
+  }
+  .product-information-container{
+    @apply w-full
+  }
+  .product-description{
+    @apply mt-2 text-4xl
+  }
+  .product-detail-title{
+    @apply text-6xl
+  }
+  .product-detail-id{
+    @apply text-4xl
+  }
+  .cart-container{
+    @apply h-96
+  }
+  .remove-button{
+    @apply text-5xl
+  }
+  .alert-container{
+    @apply w-full h-24
+  }
+  .alert-text{
+    @apply text-5xl
+  }
+  .search-input{
+    @apply w-full
+  }
+  .product-list-title{
+    @apply text-5xl m-1
+  }
+  .product-list-id{
+    @apply text-4xl
+  }
+}
+@screen md{
+  .pagination-buttont{
+    @apply text-4xl
+  }
+  .inc-dec-button{
+    @apply px-8
+  }
+  .quantity-input{
+    @apply w-32
+  }
+  .product-text{
+    @apply text-5xl
+  }
+  .product-container{
+    @apply w-5/6
+  }
+  .top-button{
+    @apply w-full m-4 text-5xl
+  }
+  .header{
+    @apply text-7xl
+  }
+  .product-detail-container{
+    @apply w-full mt-8
+  }
+  .close-button{
+    @apply text-5xl
+  }
+  .product-information-container{
+    @apply w-full
+  }
+  .product-description{
+    @apply mt-2 text-4xl
+  }
+  .product-detail-title{
+    @apply text-6xl
+  }
+  .product-detail-id{
+    @apply text-4xl
+  }
+  .cart-container{
+    @apply h-96
+  }
+  .remove-button{
+    @apply text-5xl
+  }
+  .alert-container{
+    @apply w-full h-24
+  }
+  .alert-text{
+    @apply text-5xl
+  }
+  .search-input{
+    @apply w-full
+  }
+  .product-list-title{
+    @apply text-5xl m-1
+  }
+  .product-list-id{
+    @apply text-4xl
+  }
+}
+@screen lg{
+  .pagination-button{
+    @apply text-xl
+  }
+  .inc-dec-button{
+    @apply px-2
+  }
+  .quantity-input{
+    @apply w-12
+  }
+  .product-text{
+    @apply text-lg
+  }
+  .product-container{
+    @apply max-w-sm
+  }
+  .top-button{
+    @apply w-1/2 m-0 text-xl
+  }
+  .header{
+    @apply text-6xl
+  }
+  .product-detail-container{
+    @apply w-2/3 mt-16
+  }
+  .close-button{
+    @apply text-lg
+  }
+  .product-information-container{
+    @apply w-2/3
+  }
+  .product-description{
+    @apply mt-4 text-lg
+  }
+  .product-detail-title{
+    @apply text-4xl
+  }
+  .product-detail-id{
+    @apply text-xl
+  }
+  .cart-container{
+    @apply h-72
+  }
+  .remove-button{
+    @apply text-lg
+  }
+  .alert-container{
+    @apply w-1/4 h-12
+  }
+  .alert-text{
+    @apply text-xl
+  }
+  .search-input{
+    @apply w-auto
+  }
+  .product-list-title{
+    @apply text-lg m-4
+  }
+  .product-list-id{
+    @apply text-xs
+  }
+}
+@screen xl{
+  .pagination-button{
+    @apply text-xl
+  }
+  .inc-dec-button{
+    @apply px-2
+  }
+  .quantity-input{
+    @apply w-12
+  }
+  .product-text{
+    @apply text-lg
+  }
+  .product-container{
+    @apply max-w-sm
+  }
+  .top-button{
+    @apply w-1/2 m-0 text-xl
+  }
+  .header{
+    @apply text-6xl
+  }
+  .product-detail-container{
+    @apply w-2/3 mt-16
+  }
+  .close-button{
+    @apply text-lg
+  }
+  .product-information-container{
+    @apply w-2/3
+  }
+  .product-description{
+    @apply mt-4 text-lg
+  }
+  .product-detail-title{
+    @apply text-4xl
+  }
+  .product-detail-id{
+    @apply text-xl
+  }
+  .cart-container{
+    @apply h-72
+  }
+  .remove-button{
+    @apply text-lg
+  }
+  .alert-container{
+    @apply w-1/4 h-12
+  }
+  .alert-text{
+    @apply text-xl
+  }
+  .search-input{
+    @apply w-auto
+  }
+  .product-list-title{
+    @apply text-lg m-4
+  }
+  .product-list-id{
+    @apply text-xs
+  }
+}
+.footer{
+  @apply bg-gray-700 w-full h-12
+}
 
 @tailwind utilities;
-
-
