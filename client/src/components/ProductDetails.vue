@@ -18,7 +18,7 @@
                             <div class="inline-flex p-2 flex justify-center mx-auto w-full product-text">
                                 <button class="inc-dec-button rounded-l" @click="decrementProductCount">-</button>
                                 <input class="quantity-input" v-model="productCount" placeholder="1" @input="checkValidationNumber">
-                                <button class="inc-dec-button" @click="productCount += 1">+</button>
+                                <button class="inc-dec-button" @click="incrementProductCount">+</button>
                                 <div>
                                     <button class="product-button rounded-r border" @click="addToCart(productCount, product.id)">Add to <i class="fa fa-shopping-cart"></i></button>
                                 </div>
@@ -75,6 +75,9 @@ export default {
             if(this.productCount > 0) {
                 this.productCount -= 1
             }
+        },
+        incrementProductCount() {
+            this.productCount += 1
         }
     },
     created() {
