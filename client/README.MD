@@ -1,7 +1,7 @@
 # Introduction to the application
 
-The application was created using [Vue](https://vuejs.org)&[Vuex](https://vuex.vuejs.org) framework. It's layout was designed with [Tailwind.css](https://tailwindcss.com). \
-Application gets needed data in response from REST API provided as [JSON-server](https://github.com/typicode/json-server).
+The application was created using [Vue](https://vuejs.org)&[Vuex](https://vuex.vuejs.org) framework. Responsive layout was designed with [Tailwind.css](https://tailwindcss.com). \
+Application gets needed data in response from REST API provided by [JSON-server](https://github.com/typicode/json-server).
 
 ### Application's capabilities
 
